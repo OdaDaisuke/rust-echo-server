@@ -1,3 +1,4 @@
+use std::env;
 use std::net::{TcpListener, TcpStream};
 use std::thread;
 use std::io::Read;
@@ -43,6 +44,12 @@ fn run_tcp() {
 }
 
 fn main() {
-    // run_tcp()
-    udp::run();
+    let args: Vec<String> = env::args().collect();
+    if args.len() >= 2 && args[1] == "udp" {
+        println!("Run UDP echo server");
+        udp::run();
+    } else {
+        println!("Run TCP echo server");
+        run_tcp();
+    }
 }
