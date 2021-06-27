@@ -3,10 +3,12 @@ use std::thread;
 use std::io::Read;
 use std::io::Write;
 
+mod udp;
+
 fn handle_client(mut stream: TcpStream) {
-    // read 20 bytes at a time from stream echoing back to stream
+    // read 128 bytes at a time from stream echoing back to stream
     loop {
-        let mut read_buf = [0; 1028];
+        let mut read_buf = [0; 1024];
         match stream.read(&mut read_buf) {
             Ok(n) => {
                 if n == 0 { 
@@ -22,9 +24,10 @@ fn handle_client(mut stream: TcpStream) {
     }
 }
 
-fn main() {
+fn run_tcp() {
     let listener = TcpListener::bind("127.0.0.1:8080").unwrap();
 
+    // 中でacceptとかしてくれてるはず
     for stream in listener.incoming() {
         match stream {
             Ok(stream) => {
@@ -37,4 +40,9 @@ fn main() {
             }
         }
     }
+}
+
+fn main() {
+    // run_tcp()
+    udp::run();
 }

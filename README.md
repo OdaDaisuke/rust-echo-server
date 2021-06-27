@@ -11,5 +11,9 @@ $ cargo run
 ### テスト用クライアントの起動
 
 ```bash
-node bin/test_client 8080 'Hello World'
+node bin/test_tcp 8080 'Hello World'
+```
+
+```bash
+node bin/test_udp
 ```

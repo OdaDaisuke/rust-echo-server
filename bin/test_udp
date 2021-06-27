@@ -1,0 +1,23 @@
+const dgram = require('dgram');
+
+const PORT = 34255;
+const OPPONENT_PORT = 34254;
+const HOST = '127.0.0.1';
+
+const socket = dgram.createSocket('udp4');
+
+socket.on('listening', () => {
+    const address = socket.address();
+    console.log('UDP socket listening on ' + address.address + ":" + address.port);
+    
+    const message = "hello";
+    socket.send(message, 0, message.length, OPPONENT_PORT, HOST, (err, bytes) => {
+        if (err) throw err;
+    });
+});
+
+socket.on('message', (message, remote) => {
+    console.log(remote.address + ':' + remote.port +' - ' + message);
+});
+
+socket.bind(PORT, HOST);
