@@ -6,14 +6,14 @@ use std::io::Write;
 fn handle_client(mut stream: TcpStream) {
     // read 20 bytes at a time from stream echoing back to stream
     loop {
-        let mut read = [0; 1028];
-        match stream.read(&mut read) {
+        let mut read_buf = [0; 1028];
+        match stream.read(&mut read_buf) {
             Ok(n) => {
                 if n == 0 { 
                     // connection was closed
                     break;
                 }
-                stream.write(&read[0..n]).unwrap();
+                stream.write(&read_buf[0..n]).unwrap();
             }
             Err(err) => {
                 panic!(err);

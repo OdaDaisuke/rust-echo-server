@@ -1,0 +1,37 @@
+const net = require("net");
+
+const args = process.argv.slice(2);
+
+let host;
+let port;
+let message;
+
+if (args.length > 2) {
+    host = args[0];
+    port = parseInt(args[1]);
+    message = args[2];
+} else if (args.length > 1) {
+    host = "localhost";
+    port = parseInt(args[0]);
+    message = args[1];
+}
+
+const logger = fun => console.log(`[${new Date()}] ${fun.call(null)}`);
+
+const client = net.createConnection({ host: host, port: port }, () => {
+    logger(() => "start client");
+});
+
+client.on("connect", () => {
+    logger(() => `connected server[${host}:${client.remotePort}]`);
+    client.write(message);
+    logger(() => `send message[${message}]`);
+});
+
+client.on("data", data => {
+    logger(() => `receive message[${data}]`);
+
+    client.destroy();
+});
+
+client.on("close", () => logger(() => "disconnect server"));
