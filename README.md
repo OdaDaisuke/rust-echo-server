@@ -2,11 +2,17 @@
 
 ### サーバの起動
 
+TCPの場合
 
 ```bash
 $ cargo run
 ```
 
+UDPの場合
+
+```bash
+$ cargo run udp
+```
 
 ### テスト用クライアントの起動
 
